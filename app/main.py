@@ -4,7 +4,7 @@ from fastapi.middleware.gzip import GZipMiddleware
 from app.core.config import enviroment_variables
 from contextlib import asynccontextmanager
 from app.database.connect import init_db
-from app.routers import auth, chat
+from app.routers import auth, chat, health
 
 envs = enviroment_variables()
 
@@ -28,5 +28,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(health.router)
 app.include_router(auth.router)
 app.include_router(chat.router)
