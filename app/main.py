@@ -15,6 +15,10 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+@app.on_event("startup")
+async def startup_event():
+    print("Minerva is booting...")
+
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 app.add_middleware(
     CORSMiddleware,
