@@ -1,0 +1,30 @@
+# Web Framework
+fastapi
+uvicorn[standard]
+
+# Database and ORM
+sqlalchemy
+asyncpg
+psycopg2-binary
+
+# Vector Support
+pgvector
+
+# Security and Auth
+pyjwt
+bcrypt
+python-multipart
+
+# AI and External API Integration
+huggingface-hub
+httpx
+
+# Configuration and Utilities
+pydantic-settings
+
+# Email Validation (Robust library for regex/DNS validation)
+email-validator
+
+# Deployment Utilities
+# Included to ensure compatibility with production environments (gunicorn/uvicorn)
+gunicorn

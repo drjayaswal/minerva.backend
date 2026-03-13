@@ -1,0 +1,40 @@
+# --- Python Specific ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Virtual Environments ---
+.venv/
+venv/
+env/
+ENV/
+
+# --- Dependency Management ---
+.eggs/
+*.egg-info/
+dist/
+build/
+*.egg
+
+# --- Database & Local Config ---
+*.db
+*.sqlite3
+*.sqlite3-journal
+.env
+.env.local
+.env.*.local
+config/local_settings.py
+
+# --- IDE & Editor Config ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- OS Specific ---
+.DS_Store
+Thumbs.db
+
+# --- Docker & Logs ---
+*.log
+.docker/
