@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy.orm import Session
 
 from app.database.connect import get_db
@@ -16,6 +16,7 @@ router = APIRouter(
 @router.post("/connect", response_model=APIResponse)
 async def connect_user(
     payload: ConnectRequest,
+    response: Response,
     db: Session = Depends(get_db)
 ):
     try:
@@ -34,7 +35,14 @@ async def connect_user(
             )
 
         token = AuthService.generate_token(user)
-
+        response.set_cookie(
+                key="session",
+                value=token,
+                httponly=True,
+                secure=True,
+                samesite="none",
+                max_age=86400
+            )
         return APIResponse(
             success=True,
             message="Connected!",

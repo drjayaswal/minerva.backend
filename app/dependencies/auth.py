@@ -10,16 +10,20 @@ async def get_current_user(
     db: Session = Depends(get_db)
 ):
 
+    print(f"DEBUG: All cookies received: {request.cookies}")
+    
     token = request.cookies.get("session")
 
     if not token:
+        print("DEBUG: No session cookie found!")
         raise HTTPException(status_code=401, detail="Not authenticated")
 
     payload = decode_token(token)
 
     if not payload:
+        print("DEBUG: Token could not be decoded!")
         raise HTTPException(status_code=401, detail="Invalid token")
-
+    
     user = db.query(User).filter(
         User.email == payload.get("sub")
     ).first()
