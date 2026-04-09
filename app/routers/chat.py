@@ -131,3 +131,31 @@ async def create_conversation(
             status_code=500,
             detail="Failed to create conversation"
         )
+
+@router.post("/conversations/delete", response_model=APIResponse)
+async def delete_conversation(
+    payload: ConversationRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    try:
+
+        conversation = ChatService.delete_conversation(
+            db,
+            payload.id,
+            current_user
+        )
+
+        return APIResponse(
+            success=True,
+            message="Conversation deleted",
+            data={"conversation": conversation}
+        )
+
+    except Exception as e:
+        print("DELETE CONVERSATION ERROR:", e)
+
+        raise HTTPException(
+            status_code=500,
+            detail="Failed to delete conversation"
+        )

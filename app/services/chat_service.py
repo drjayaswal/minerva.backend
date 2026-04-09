@@ -1,3 +1,4 @@
+from sqlalchemy import func
 import asyncio
 import logging
 from sqlalchemy.orm import Session
@@ -28,7 +29,6 @@ class ChatService:
         Always structure responses using strict Markdown:
 
         - Use `###` headers to separate distinct sections
-        - Use `-` for all bullet lists
         - Wrap all technical identifiers, commands, variables, and code snippets in backticks
         - Use tables when presenting 3+ attributes or comparative data
         - Use `**bold**` for key terms or critical callouts
@@ -216,4 +216,67 @@ class ChatService:
             "id": str(conversation.id),
             "title": conversation.title,
             "created_at": conversation.created_at
+        }
+
+    # ---------------- DELETE CONVERSATION ---------------- #
+
+    @staticmethod
+    def delete_conversation(
+        db: Session,
+        conversation_id: str,
+        user: User
+    ):
+        conversation = db.query(Conversation).filter(
+            Conversation.id == conversation_id,
+            Conversation.user_id == user.id
+        ).first()
+
+        if not conversation:
+            return None
+
+        db.delete(conversation)
+        db.commit()
+
+        return {
+            "id": str(conversation_id),
+            "message": "Deleted successfully"
+        }
+
+    # ---------------- ADMIN DASHBOARD ---------------- #
+
+    @staticmethod
+    def get_admin_dashboard_data(db: Session):
+        users = db.query(User).all()
+        
+        user_data = []
+        for user in users:
+            user_data.append({
+                "id": str(user.id),
+                "email": user.email,
+                "created_at": user.created_at,
+                "conversation_count": len(user.conversations)
+            })
+
+        all_conversations = db.query(Conversation).all()
+        conversation_data = [
+            {
+                "id": str(c.id),
+                "user_id": str(c.user_id),
+                "title": c.title,
+                "created_at": c.created_at,
+                "message_count": db.query(Message).filter(Message.conversation_id == c.id).count()
+            }
+            for c in all_conversations
+        ]
+
+        total_messages = db.query(func.count(Message.id)).scalar()
+
+        return {
+            "users": user_data,
+            "conversations": conversation_data,
+            "stats": {
+                "total_users": len(user_data),
+                "total_conversations": len(conversation_data),
+                "total_messages": total_messages
+            }
         }

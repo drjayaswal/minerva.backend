@@ -8,7 +8,8 @@ class ChatRequest(BaseModel):
 
 
 class ConversationRequest(BaseModel):
-    title: str
+    title: Optional[str] = None
+    id: Optional[str] = None
 
 
 class MessageResponse(BaseModel):
