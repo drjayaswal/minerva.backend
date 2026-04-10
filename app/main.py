@@ -4,7 +4,7 @@ from fastapi.middleware.gzip import GZipMiddleware
 from app.core.config import enviroment_variables
 from contextlib import asynccontextmanager
 from app.database.connect import init_db
-from app.routers import auth, chat, health, admin
+from app.routers import auth, chat, health, admin, api
 
 envs = enviroment_variables()
 
@@ -32,3 +32,4 @@ app.include_router(health.router)
 app.include_router(admin.router)
 app.include_router(auth.router)
 app.include_router(chat.router)
+app.include_router(api.router)

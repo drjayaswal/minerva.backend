@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.database.connect import get_db
 from app.schemas.auth import ConnectRequest
 from app.schemas.base import APIResponse
-from app.services.auth_service import AuthService
+from app.services.auth import AuthService
 
 
 router = APIRouter(

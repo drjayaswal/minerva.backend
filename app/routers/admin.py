@@ -1,8 +1,8 @@
+from app.services.admin import AdminService
 from sqlalchemy.orm import Session
 from app.database.models import User
 from app.database.connect import get_db
 from app.schemas.base import APIResponse
-from app.services.chat_service import ChatService
 from app.dependencies.auth import get_current_user
 from fastapi import APIRouter, Depends, HTTPException
 
@@ -31,7 +31,7 @@ async def get_admin_overview(
                 detail="Unauthorized"
             )
 
-        data = ChatService.get_admin_dashboard_data(db)
+        data = AdminService.get_admin_dashboard_data(db)
 
         return APIResponse(
             success=True,

@@ -6,7 +6,7 @@ from app.schemas.chat import ChatRequest, ConversationRequest
 from app.schemas.base import APIResponse
 from app.dependencies.auth import get_current_user
 from app.database.models import User
-from app.services.chat_service import ChatService
+from app.services.chat import ChatService
 
 router = APIRouter(prefix="/chat", tags=["Chat"])
 

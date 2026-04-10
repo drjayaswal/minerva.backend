@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter
 from app.schemas.base import APIResponse
 
 router = APIRouter(prefix="/health", tags=["Chat"])
